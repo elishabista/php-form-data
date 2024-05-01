@@ -22,11 +22,11 @@
     <br />
     <br />
     Email: <input type="email" name="email" />
-    <div class="error"><?php if(isset($email_error))  echo  $email_error;?></div>
+    <!-- <div class="error"><?php if(isset($email_error))  echo  $email_error;?></div> -->
     <br />
     <br />
     Phone Number: <input type="number" name="phone" />
-    <div class="error"><?php if(isset($phone_error))  echo  $phone_error;?></div>
+    <!-- <div class="error"><?php if(isset($phone_error))  echo  $phone_error;?></div> -->
 
     <br />
     <br />
@@ -61,7 +61,7 @@
   $(document).ready(function(){
     $('#submitBtn').on('submit',function(e){
       e.preventDefault();
-     console.log('clicked')
+     
       // Perform client-side validation
       var name = $('input[name=name]').val();
         var email = $('input[name=email]').val();
@@ -79,14 +79,12 @@
         url: 'form.php',
         data: $formData,
         success: function(response){
-         alert(response);
-          console.log(response);
+         
           if ('Success' !== response) {
-            console.log(response.trim());
+       
             switch (response.trim()) {
               case 'Please Enter message':
-                console.log('asdfsdf');
-                console.log($('input[name="name"]'));
+             
                 $(`<div class="error">${response}</div>`).insertAfter($('input[name="name"]'))
                 break;
             }
@@ -94,17 +92,20 @@
           } 
         },
         error: function(xhr, status, error) {
-          var response = xhr.responseJSON;
-          alert(response?.errors)
-          console.log('......');
-          console.log(response.errors.name);
-          console.log('////////');
-      
-      
+  var response = xhr.responseJSON;
+  
+  
+  
+  $.each(response.errors, function(fieldName, errorMessage) {
 
-        
+    var $inputField = fieldName === "message"? $inputField = $('textarea[name="' + fieldName + '"]')
+:  $('input[name="' + fieldName + '"]');
+    
+   
+    $('<div class="error">' + errorMessage + '</div>').insertAfter($inputField);
+  });
+}
 
-    }
 
     
 
