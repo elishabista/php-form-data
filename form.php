@@ -8,10 +8,12 @@ $password = "root";
 $dbname = "test";
 
 $message_error = '';
+$errors = [];
+
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-// $name = $_POST['name']; 
+// $name = $_POST['name'];
 $email = $_POST["email"];
 // var_dump($email);
 $phone = $_POST["phone"];
@@ -26,6 +28,8 @@ $message = $_POST["message"];
 
     if (empty($_POST["name"])) {
         $name_error = "Please Enter Name";
+        $errors['name']= $name_error;
+
     } else {
         $name = test_input($_POST["name"]);
     }
@@ -33,6 +37,7 @@ $message = $_POST["message"];
     $pattern = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/";
     if (!preg_match($pattern, $email)) {
         $email_error = "Please Enter a Valid Email Address";
+        $errors['email']= $email_error;
     } else {
         $email = test_input($_POST["email"]);
     }
@@ -68,8 +73,22 @@ else{
 
 }
 
+
+
 $response['succes'] = empty($message_error) ? true : false;
 $response['message'] = empty($message_error) ? 'Success' : $message_error;
+// $response['error'] = $errors;
+
+
+$response = [
+    'success' => true,
+];
+if (!empty($errors)) {
+    http_response_code(400); // Set the response status code to indicate a bad request
+    $response['errors'] = $errors;
+    $response['success'] = false;
+}
+
 
 echo json_encode( $response );
 exit();

@@ -1,3 +1,4 @@
+<?php ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -78,6 +79,7 @@
         url: 'form.php',
         data: $formData,
         success: function(response){
+         alert('kjsdnj');
           // console.log(response);
           if ('Success' !== response) {
             console.log(response.trim());
@@ -90,7 +92,24 @@
             }
             return;
           } 
-        }
+        },
+        error: function(xhr, status, error) {
+          var response = xhr.responseJSON;
+          console.log(response);
+          const jsonParse = xhr.responseText.success;
+       
+          console.error("Error status:", status);
+        console.error("Error message:", error);
+        
+        // Accessing the error response data
+        console.log("Error response:", xhr.responseText);
+
+        
+
+    }
+
+    
+
       });
     });
   });
