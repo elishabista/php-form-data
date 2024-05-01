@@ -83,10 +83,14 @@ $response['message'] = empty($message_error) ? 'Success' : $message_error;
 $response = [
     'success' => true,
 ];
+
 if (!empty($errors)) {
     http_response_code(400); // Set the response status code to indicate a bad request
     $response['errors'] = $errors;
     $response['success'] = false;
+}
+else{
+    
 }
 
 
