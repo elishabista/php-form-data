@@ -4,9 +4,10 @@ $username = "root";
 $password = "root";
 $dbname = "test";
 
+$message_error = '';
+
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    
 // $name = $_POST['name']; 
 $email = $_POST["email"];
 $phone = $_POST["phone"];
@@ -54,7 +55,7 @@ $message = $_POST["message"];
 
 $conn= new mysqli($servername,$username,$password,$dbname);
 if($conn->connect_error){
-    die('Connection Failed : '. $conn->$connect_error);
+    die('Connection Failed : '. $conn->connect_error);
 }
 else{
     $stmt = $conn->prepare("insert into registration(name,email,phone,address,message) values(?,?,?,?,?)");
@@ -66,5 +67,5 @@ else{
 }
 }
 
-
+echo empty($message_error) ? 'Success' : $message_error;
 ?>
