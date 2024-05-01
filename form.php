@@ -1,4 +1,7 @@
 <?php
+
+header('Content-Type: application/json; charset=utf-8');
+
 $servername = "localhost";
 $username = "root";
 $password = "root";
@@ -10,6 +13,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 // $name = $_POST['name']; 
 $email = $_POST["email"];
+// var_dump($email);
 $phone = $_POST["phone"];
 $address = $_POST["address"];
 $message = $_POST["message"];
@@ -51,8 +55,6 @@ $message = $_POST["message"];
     } else {
         $message = test_input($_POST["message"]);
     }
-    
-
 $conn= new mysqli($servername,$username,$password,$dbname);
 if($conn->connect_error){
     die('Connection Failed : '. $conn->connect_error);
@@ -65,7 +67,12 @@ else{
     $conn->close();
 
 }
+
+$response['succes'] = empty($message_error) ? true : false;
+$response['message'] = empty($message_error) ? 'Success' : $message_error;
+
+echo json_encode( $response );
+exit();
 }
 
-echo empty($message_error) ? 'Success' : $message_error;
 ?>

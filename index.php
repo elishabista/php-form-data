@@ -60,34 +60,23 @@
   $(document).ready(function(){
     $('#submitBtn').on('submit',function(e){
       e.preventDefault();
-
+     console.log('clicked')
       // Perform client-side validation
-      var name = $('#name').val();
-      var email = $('#email').val();
-      var phone = $('#phone').val();
-      var address = $('#address').val();
-      var message = $('#message').val();
-      var isValid = true;
+      var name = $('input[name=name]').val();
+        var email = $('input[name=email]').val();
+        var phone = $('input[name=phone]').val();
+        var address = $('input[name=address]').val();
+        var message = $('textarea[name=message]').val();
 
-      if (name?.trim() === '') {
-        $('#name-error').text('Please enter a name');
-        isValid = false;
-      } else {
-        $('#name-error').text('');
-      }
+        var $formData = $(this).serializeArray();
 
-      // Add similar checks for other fields...
-
-      // If any field is invalid, prevent form submission
-      if (!isValid) {
-        return;
-      }
+    
 
       // If all fields are valid, proceed with AJAX form submission
       $.ajax({
         type: 'POST',
         url: 'form.php',
-        data: {name: name, email: email, phone: phone, address: address, message: message},
+        data: $formData,
         success: function(response){
           // console.log(response);
           if ('Success' !== response) {
@@ -101,13 +90,6 @@
             }
             return;
           } 
-          // $('#response').html(response);
-          // You can optionally clear the form fields here
-          $('#name').val('');
-          $('#email').val('');
-          $('#phone').val('');
-          $('#address').val('');
-          $('#message').val('');
         }
       });
     });
