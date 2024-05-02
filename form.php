@@ -64,7 +64,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $message = test_input($_POST["message"]);
     }
-    $conn = new mysqli($servername, $username, $password, $dbname);
+   
+     
+    if(empty($errors)){
+     $conn = new mysqli($servername, $username, $password, $dbname);
     if ($conn->connect_error) {
         die('Connection Failed : ' . $conn->connect_error);
     } else {
@@ -74,26 +77,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
         $conn->close();
     }
-
-
-
-    $response['succes'] = empty($message_error) ? true : false;
-    $response['message'] = empty($message_error) ? 'Success' : $message_error;
-    // $response['error'] = $errors;
-
+   }
+     $response['succes'] = empty($message_error) ? true : false;
+     $response['message'] = empty($message_error) ? 'Success' : $message_error;
 
     $response = [
         'success' => true,
     ];
 
     if (!empty($errors)) {
-        http_response_code(400); // Set the response status code to indicate a bad request
+        http_response_code(400); 
         $response['errors'] = $errors;
         $response['success'] = false;
     } else {
     }
 
-
-    echo json_encode($response);
+  echo json_encode($response);
     exit();
 }
