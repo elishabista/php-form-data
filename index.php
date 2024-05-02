@@ -29,11 +29,11 @@
     <br />
     <br />
     Address: <input type="text" name="address" />
-   
+
     <br />
     <br />
     Message: <textarea name="message" rows="4" columns="10"></textarea>
- 
+
     <br />
     <br />
     <input type="submit" name="submit" value="Submit">
@@ -70,23 +70,15 @@
 
 
 
-        // If all fields are valid, proceed with AJAX form submission
+        
         $.ajax({
           type: 'POST',
           url: 'form.php',
           data: $formData,
           success: function(response) {
-            alert('abcd');
-            // if ('Success' !== response) {
-
-            //   switch (response.trim()) {
-            //     case 'Please Enter message':
-
-            //       $(`<div class="error">${response}</div>`).insertAfter($('input[name="name"]'))
-            //       break;
-            //   }
-            //   return;
-            // } 
+            if(response.success){
+            $('#submitBtn')[0].reset();
+          }
           },
           error: function(xhr, status, error) {
             $('.error').remove();
