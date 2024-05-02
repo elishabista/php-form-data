@@ -78,6 +78,7 @@
           success: function(response) {
             if(response.success){
             $('#submitBtn')[0].reset();
+            $('.error').remove();
           }
           },
           error: function(xhr, status, error) {
