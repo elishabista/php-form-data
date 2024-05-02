@@ -8,8 +8,8 @@
   <title>Document</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <style>
-    .error{
-      color:red;
+    .error {
+      color: red;
       margin-top: 4px;
     }
   </style>
@@ -17,34 +17,31 @@
 
 <body>
   <h1>Php Form</h1>
-  <form method="post" id="submitBtn" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+  <form method="post" id="submitBtn" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
     Name: <input type="text" name="name" />
     <br />
     <br />
     Email: <input type="email" name="email" />
-    <!-- <div class="error"><?php if(isset($email_error))  echo  $email_error;?></div> -->
     <br />
     <br />
     Phone Number: <input type="number" name="phone" />
-    <!-- <div class="error"><?php if(isset($phone_error))  echo  $phone_error;?></div> -->
 
     <br />
     <br />
     Address: <input type="text" name="address" />
-    <div class="error">
-      <?php if(isset($address_error))   echo $address_error;?></div>
+   
     <br />
     <br />
     Message: <textarea name="message" rows="4" columns="10"></textarea>
-    <div class="error"><?php echo $message_error;?></div>
+ 
     <br />
     <br />
-    <input type="submit" name="submit" value="Submit" >  
+    <input type="submit" name="submit" value="Submit">
 
   </form>
   <div id="response"></div>
 
-  <?php 
+  <?php
   echo $name;
   echo "<br>";
   echo $email;
@@ -57,13 +54,13 @@
   echo "<br>";
 
   ?>
-    <script>
-  $(document).ready(function(){
-    $('#submitBtn').on('submit',function(e){
-      e.preventDefault();
-     
-      // Perform client-side validation
-      var name = $('input[name=name]').val();
+  <script>
+    $(document).ready(function() {
+      $('#submitBtn').on('submit', function(e) {
+        e.preventDefault();
+
+        // Perform client-side validation
+        var name = $('input[name=name]').val();
         var email = $('input[name=email]').val();
         var phone = $('input[name=phone]').val();
         var address = $('input[name=address]').val();
@@ -71,48 +68,49 @@
 
         var $formData = $(this).serializeArray();
 
-    
-
-      // If all fields are valid, proceed with AJAX form submission
-      $.ajax({
-        type: 'POST',
-        url: 'form.php',
-        data: $formData,
-        success: function(response){
-         
-          if ('Success' !== response) {
-       
-            switch (response.trim()) {
-              case 'Please Enter message':
-             
-                $(`<div class="error">${response}</div>`).insertAfter($('input[name="name"]'))
-                break;
-            }
-            return;
-          } 
-        },
-        error: function(xhr, status, error) {
-  var response = xhr.responseJSON;
-  
-  
-  
-  $.each(response.errors, function(fieldName, errorMessage) {
-
-    var $inputField = fieldName === "message"? $inputField = $('textarea[name="' + fieldName + '"]')
-:  $('input[name="' + fieldName + '"]');
-    
-   
-    $('<div class="error">' + errorMessage + '</div>').insertAfter($inputField);
-  });
-}
 
 
-    
+        // If all fields are valid, proceed with AJAX form submission
+        $.ajax({
+          type: 'POST',
+          url: 'form.php',
+          data: $formData,
+          success: function(response) {
+            alert('abcd');
+            // if ('Success' !== response) {
 
+            //   switch (response.trim()) {
+            //     case 'Please Enter message':
+
+            //       $(`<div class="error">${response}</div>`).insertAfter($('input[name="name"]'))
+            //       break;
+            //   }
+            //   return;
+            // } 
+          },
+          error: function(xhr, status, error) {
+            $('.error').remove();
+            var response = xhr.responseJSON;
+
+
+
+            $.each(response.errors, function(fieldName, errorMessage) {
+
+              var $inputField = fieldName === "message" ? $inputField = $('textarea[name="' + fieldName + '"]') :
+                $('input[name="' + fieldName + '"]');
+
+
+              $('<div class="error">' + errorMessage + '</div>').insertAfter($inputField);
+            });
+          }
+
+
+
+
+        });
       });
     });
-  });
-</script>
+  </script>
 </body>
 
 </html>
