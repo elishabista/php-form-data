@@ -13,7 +13,7 @@ class FormHandler
     public $message_error = '';
     public $errors = [];
 
-    function test_input($data)
+    private function test_input($data)
     {
         $data = trim($data);
         $data = stripslashes($data);
@@ -21,7 +21,7 @@ class FormHandler
         return $data;
     }
 
-    public function DatabaseConnection($name, $email, $phone, $address, $message)
+    private function DatabaseConnection($name, $email, $phone, $address, $message)
     {
         $conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
         if ($conn->connect_error) {
@@ -34,10 +34,8 @@ class FormHandler
             $conn->close();
         }
     }
-    //  public function ValidaitionName(){
 
-    //  }
-    public function ValidationName($name, &$errors)
+    private function ValidationName($name, &$errors)
     {
         if (empty($name)) {
             $name_error = "Please Enter Name";
@@ -46,7 +44,7 @@ class FormHandler
             $name = $this->test_input($_POST["name"]);
         }
     }
-    public function ValidationEmail($email, &$errors)
+    private function ValidationEmail($email, &$errors)
     {
         $pattern = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/";
         if (!preg_match($pattern, $email)) {
@@ -56,7 +54,7 @@ class FormHandler
             $email = $this->test_input($_POST["email"]);
         }
     }
-    public function ValidationPhone($phone, &$errors)
+    private function ValidationPhone($phone, &$errors)
     {
 
         if (empty($phone)) {
@@ -71,7 +69,7 @@ class FormHandler
             }
         }
     }
-    public function ValidationAddress($address, &$errors)
+    private function ValidationAddress($address, &$errors)
     {
         if (empty($address)) {
             $address_error = "Please Enter address";
@@ -80,7 +78,7 @@ class FormHandler
             $address = $this->test_input($_POST["address"]);
         }
     }
-    public function ValidationMessage($message, &$errors)
+    private function ValidationMessage($message, &$errors)
     {
         if (empty($message)) {
             $message_error = "Please Enter message";
@@ -99,7 +97,7 @@ class FormHandler
             $phone = $_POST["phone"];
             $address = $_POST["address"];
             $message = $_POST["message"];
-        
+
 
             $this->ValidationName($name, $errors);
             $this->ValidationEmail($email, $errors);
