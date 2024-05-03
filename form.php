@@ -64,34 +64,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $message = test_input($_POST["message"]);
     }
-   
-     
-    if(empty($errors)){
-     $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-        die('Connection Failed : ' . $conn->connect_error);
-    } else {
-        $stmt = $conn->prepare("insert into registration(name,email,phone,address,message) values(?,?,?,?,?)");
-        $stmt->bind_param("ssiss", $name, $email, $phone, $address, $message);
-        $stmt->execute();
-        $stmt->close();
-        $conn->close();
+
+
+    if (empty($errors)) {
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        if ($conn->connect_error) {
+            die('Connection Failed : ' . $conn->connect_error);
+        } else {
+            $stmt = $conn->prepare("insert into registration(name,email,phone,address,message) values(?,?,?,?,?)");
+            $stmt->bind_param("ssiss", $name, $email, $phone, $address, $message);
+            $stmt->execute();
+            $stmt->close();
+            $conn->close();
+        }
     }
-   }
-     $response['succes'] = empty($message_error) ? true : false;
-     $response['message'] = empty($message_error) ? 'Success' : $message_error;
+
 
     $response = [
         'success' => true,
     ];
 
     if (!empty($errors)) {
-        http_response_code(400); 
+        http_response_code(400);
         $response['errors'] = $errors;
         $response['success'] = false;
     } else {
     }
 
-  echo json_encode($response);
+    echo json_encode($response);
     exit();
 }

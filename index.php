@@ -62,13 +62,9 @@
         var message = $('textarea[name=message]').val();
 
         var $formData = $(this).serializeArray();
-
-
-
-        
-        $.ajax({
+         $.ajax({
           type: 'POST',
-          url: 'form.php',
+          url: 'formOop.php',
           data: $formData,
           success: function(response) {
             if(response.success){
