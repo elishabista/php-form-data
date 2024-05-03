@@ -13,6 +13,14 @@ class FormHandler
     public $message_error = '';
     public $errors = [];
 
+    function test_input($data)
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+
     public function DatabaseConnection($name, $email, $phone, $address, $message)
     {
         $conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
@@ -35,7 +43,7 @@ class FormHandler
             $name_error = "Please Enter Name";
             $errors['name'] = $name_error;
         } else {
-            $name = test_input($_POST["name"]);
+            $name = $this->test_input($_POST["name"]);
         }
     }
     public function ValidationEmail($email, &$errors)
@@ -45,7 +53,7 @@ class FormHandler
             $email_error = "Please Enter a Valid Email Address";
             $errors['email'] = $email_error;
         } else {
-            $email = test_input($_POST["email"]);
+            $email = $this->test_input($_POST["email"]);
         }
     }
     public function ValidationPhone($phone, &$errors)
@@ -55,7 +63,7 @@ class FormHandler
             $phone_error = "Please Enter Phone Number";
             $errors['phone'] = $phone_error;
         } else {
-            $number = test_input($_POST["phone"]);
+            $number = $this->test_input($_POST["phone"]);
             $numberPattern = '/^[0-9]{10}$/';
             if (!preg_match($numberPattern, $number)) {
                 $phone_error = "Please Enter a Valid Phone Number";
@@ -69,7 +77,7 @@ class FormHandler
             $address_error = "Please Enter address";
             $errors['address'] = $address_error;
         } else {
-            $address = test_input($_POST["address"]);
+            $address = $this->test_input($_POST["address"]);
         }
     }
     public function ValidationMessage($message, &$errors)
@@ -78,7 +86,7 @@ class FormHandler
             $message_error = "Please Enter message";
             $errors['message'] = $message_error;
         } else {
-            $message = test_input($_POST["message"]);
+            $message = $this->test_input($_POST["message"]);
         }
     }
 
@@ -91,22 +99,15 @@ class FormHandler
             $phone = $_POST["phone"];
             $address = $_POST["address"];
             $message = $_POST["message"];
-            function test_input($data)
-            {
-                $data = trim($data);
-                $data = stripslashes($data);
-                $data = htmlspecialchars($data);
-                return $data;
-            }
+        
 
             $this->ValidationName($name, $errors);
             $this->ValidationEmail($email, $errors);
             $this->ValidationPhone($phone, $errors);
             $this->ValidationAddress($address, $errors);
             $this->ValidationMessage($message, $errors);
+            if (empty($errors)) {
 
-          if (empty($errors)) {
-                echo ("i am database");
                 $this->DatabaseConnection($name, $email, $phone, $address, $message);
             }
 
