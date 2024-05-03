@@ -12,8 +12,7 @@ $errors = [];
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // $name = $_POST['name'];
+// $name = $_POST['name'];
     $email = $_POST["email"];
     // var_dump($email);
     $phone = $_POST["phone"];
@@ -65,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $message = test_input($_POST["message"]);
     }
 
-
+    
     if (empty($errors)) {
         $conn = new mysqli($servername, $username, $password, $dbname);
         if ($conn->connect_error) {
